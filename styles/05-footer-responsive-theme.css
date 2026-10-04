@@ -1,0 +1,937 @@
+   FOOTER
+============================================================ */
+
+.site-footer {
+    margin-top: 70px;
+
+    border-top:
+        1px solid var(--border);
+
+    background:
+        var(--surface);
+}
+
+
+.footer-inner {
+    display: grid;
+
+    grid-template-columns:
+        auto 1fr auto;
+
+    align-items: center;
+
+    gap: 22px;
+
+    min-height: 104px;
+}
+
+
+.footer-brand {
+    display: flex;
+
+    flex-direction: column;
+}
+
+
+.footer-brand strong {
+    font-size: 0.88rem;
+
+    letter-spacing: 0.08em;
+}
+
+
+.footer-brand span {
+    margin-top: 3px;
+
+    color:
+        var(--text-muted);
+
+    font-size: 0.57rem;
+
+    letter-spacing: 0.15em;
+}
+
+
+.footer-links {
+    display: flex;
+
+    justify-content: center;
+
+    flex-wrap: wrap;
+
+    gap: 7px 14px;
+}
+
+
+.footer-link {
+    padding:
+        4px 0;
+
+    background:
+        transparent;
+
+    color:
+        var(--text-soft);
+
+    cursor: pointer;
+
+    font-size: 0.74rem;
+
+    font-weight: 700;
+}
+
+
+.footer-link:hover {
+    color:
+        var(--primary);
+}
+
+
+.footer-copy {
+    color:
+        var(--text-muted);
+
+    font-size: 0.68rem;
+}
+
+
+/* ============================================================
+   DARK MODE
+============================================================ */
+
+body.dark-mode {
+    --bg: #0b1018;
+    --bg-soft: #101722;
+    --surface: #111a26;
+    --surface-soft: #172130;
+
+    --text: #edf2f7;
+    --text-soft: #aab6c5;
+    --text-muted: #778495;
+
+    --border: #243142;
+    --border-strong: #334156;
+
+    --primary: #79a2ff;
+    --primary-soft: #162b54;
+    --primary-dark: #9cbaff;
+
+    --success: #5fd2a9;
+    --success-soft: #12332a;
+
+    --warning: #efbd59;
+    --warning-soft: #3a2d13;
+
+    --danger: #f08080;
+    --danger-soft: #3a171b;
+
+    --shadow-sm:
+        0 5px 18px rgba(0, 0, 0, 0.15);
+
+    --shadow-md:
+        0 14px 35px rgba(0, 0, 0, 0.20);
+
+    --shadow-lg:
+        0 24px 60px rgba(0, 0, 0, 0.25);
+}
+
+
+body.dark-mode {
+    background:
+        radial-gradient(
+            circle at 15% 5%,
+            rgba(73, 106, 194, 0.13),
+            transparent 32%
+        ),
+        var(--bg);
+}
+
+
+body.dark-mode .site-header {
+    border-bottom-color:
+        rgba(36, 49, 66, 0.95);
+
+    background:
+        rgba(11, 16, 24, 0.88);
+}
+
+
+body.dark-mode .hero-panel {
+    background:
+        linear-gradient(
+            160deg,
+            #16233a 0%,
+            #111a26 62%,
+            #172235 100%
+        );
+
+    border-color:
+        rgba(121, 162, 255, 0.14);
+}
+
+
+body.dark-mode .news-card.featured {
+    background:
+        linear-gradient(
+            145deg,
+            #131d2a,
+            #142039
+        );
+}
+
+
+body.dark-mode .loading-line {
+    background:
+        linear-gradient(
+            90deg,
+            #182231,
+            #223041,
+            #182231
+        );
+
+    background-size:
+        200% 100%;
+}
+
+
+body.dark-mode .weather-stat,
+body.dark-mode .forecast-item,
+body.dark-mode .today-summary,
+body.dark-mode .ai-output {
+    background:
+        var(--surface-soft);
+}
+
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+
+@media (max-width: 1050px) {
+
+    .header-inner {
+        width:
+            min(
+                calc(100% - 24px),
+                var(--content-width)
+            );
+    }
+
+
+    .nav-button {
+        padding:
+            0 9px;
+
+        font-size:
+            0.8rem;
+    }
+
+
+    .hero-section {
+        grid-template-columns:
+            minmax(0, 1fr)
+            minmax(240px, 0.6fr);
+    }
+
+
+    .weather-page-main,
+    .ai-layout {
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .ai-output-panel {
+        min-height:
+            390px;
+    }
+}
+
+
+@media (max-width: 860px) {
+
+    :root {
+        --header-height:
+            68px;
+    }
+
+
+    .menu-button {
+        display: flex;
+
+        order: 2;
+    }
+
+
+    .brand {
+        flex: 1;
+    }
+
+
+    .theme-button {
+        order: 3;
+    }
+
+
+    .main-nav {
+        position: absolute;
+
+        top:
+            calc(
+                var(--header-height) + 8px
+            );
+
+        left: 12px;
+        right: 12px;
+
+        display: none;
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+        padding: 10px;
+
+        border:
+            1px solid var(--border);
+
+        border-radius:
+            16px;
+
+        background:
+            var(--surface);
+
+        box-shadow:
+            var(--shadow-lg);
+    }
+
+
+    .main-nav.open {
+        display: flex;
+    }
+
+
+    .nav-button {
+        width: 100%;
+
+        justify-content: flex-start;
+
+        text-align: left;
+
+        padding:
+            0 13px;
+    }
+
+
+    .hero-section {
+        grid-template-columns:
+            1fr;
+
+        padding-top:
+            36px;
+    }
+
+
+    .hero-panel {
+        min-height:
+            210px;
+    }
+
+
+    .top-three-grid {
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .home-dashboard {
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .news-list,
+    .music-list {
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .news-card.featured {
+        grid-column:
+            auto;
+    }
+
+
+    .today-summary-grid {
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .footer-inner {
+        grid-template-columns:
+            1fr;
+
+        justify-items:
+            center;
+
+        text-align:
+            center;
+
+        padding:
+            25px 0;
+    }
+
+
+    .footer-brand {
+        align-items:
+            center;
+    }
+
+}
+
+
+@media (max-width: 640px) {
+
+    .container {
+        width:
+            min(
+                calc(100% - 24px),
+                var(--content-width)
+            );
+    }
+
+
+    .page {
+        padding:
+            32px 0 60px;
+    }
+
+
+    .page-header {
+        flex-direction:
+            column;
+
+        align-items:
+            flex-start;
+
+        margin-bottom:
+            22px;
+    }
+
+
+    .page-header-meta {
+        align-items:
+            flex-start;
+    }
+
+
+    .hero-section {
+        gap:
+            12px;
+
+        padding:
+            22px 0 18px;
+    }
+
+
+    .hero-copy {
+        padding-right:
+            0;
+    }
+
+
+    .hero-copy h1 {
+        font-size:
+            clamp(2.3rem, 13vw, 4rem);
+    }
+
+
+    .hero-copy p {
+        margin-top:
+            18px;
+
+        line-height:
+            1.75;
+    }
+
+
+    .hero-actions {
+        margin-top:
+            20px;
+    }
+
+
+    .hero-actions .primary-button,
+    .hero-actions .secondary-button {
+        flex:
+            1 1 180px;
+    }
+
+
+    .hero-panel {
+        min-height:
+            180px;
+
+        padding:
+            22px;
+    }
+
+
+    .section-heading {
+        align-items:
+            flex-start;
+
+        flex-direction:
+            column;
+
+        gap:
+            8px;
+    }
+
+
+    .dashboard-card,
+    .today-summary,
+    .weather-main-card,
+    .forecast-card,
+    .ai-panel,
+    .settings-card {
+        padding:
+            18px;
+    }
+
+
+    .news-toolbar,
+    .music-search,
+    .location-tools,
+    .settings-location-tools {
+        flex-direction:
+            column;
+
+        align-items:
+            stretch;
+    }
+
+
+    .news-toolbar .secondary-button,
+    .music-search .primary-button,
+    .location-tools .primary-button,
+    .location-tools .secondary-button {
+        width:
+            100%;
+    }
+
+
+    .news-card {
+        padding:
+            17px;
+    }
+
+
+    .news-card.featured {
+        padding:
+            19px;
+    }
+
+
+    .music-card {
+        grid-template-columns:
+            76px minmax(0, 1fr);
+
+        padding:
+            13px;
+
+        gap:
+            12px;
+    }
+
+
+    .music-artwork {
+        width:
+            76px;
+
+        height:
+            76px;
+    }
+
+
+    .music-preview {
+        height:
+            32px;
+    }
+
+
+    .weather-current-layout {
+        gap:
+            16px;
+
+        margin-top:
+            25px;
+    }
+
+
+    .weather-large-icon {
+        width:
+            72px;
+
+        height:
+            72px;
+
+        border-radius:
+            18px;
+    }
+
+
+    .weather-stats {
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .forecast-item {
+        grid-template-columns:
+            65px 36px minmax(0, 1fr) auto;
+    }
+
+
+    .quiz-options {
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .quiz-content {
+        padding:
+            20px;
+    }
+
+
+    .settings-current,
+    .settings-row {
+        flex-direction:
+            column;
+
+        align-items:
+            flex-start;
+    }
+
+
+    .settings-current strong {
+        text-align:
+            left;
+    }
+
+
+    .settings-row .secondary-button {
+        width:
+            100%;
+    }
+
+
+    .ai-actions {
+        flex-direction:
+            column;
+    }
+
+
+    .ai-actions button {
+        width:
+            100%;
+    }
+
+
+    #ai-input {
+        min-height:
+            180px;
+    }
+
+
+    .ai-output {
+        min-height:
+            300px;
+    }
+
+}
+
+
+@media (max-width: 420px) {
+
+    .brand-name {
+        font-size:
+            0.9rem;
+    }
+
+
+    .brand-subtitle {
+        font-size:
+            0.48rem;
+    }
+
+
+    .brand-mark {
+        width:
+            38px;
+
+        height:
+            38px;
+    }
+
+
+    .theme-button,
+    .menu-button {
+        width:
+            40px;
+
+        height:
+            40px;
+    }
+
+
+    .hero-copy h1 {
+        font-size:
+            2.55rem;
+    }
+
+
+    .hero-panel {
+        min-height:
+            165px;
+    }
+
+
+    .weather-large-temperature {
+        font-size:
+            3.6rem;
+    }
+
+
+    .music-card {
+        grid-template-columns:
+            64px minmax(0, 1fr);
+    }
+
+
+    .music-artwork {
+        width:
+            64px;
+
+        height:
+            64px;
+    }
+
+}
+
+
+/* ============================================================
+   REDUCED MOTION
+============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    html {
+        scroll-behavior:
+            auto;
+    }
+
+
+    *,
+    *::before,
+    *::after {
+        animation-duration:
+            0.01ms !important;
+
+        animation-iteration-count:
+            1 !important;
+
+        transition-duration:
+            0.01ms !important;
+    }
+
+}
+
+.quiz-option-key {
+    flex: 0 0 1.25rem;
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    font-weight: 850;
+}
+
+.quiz-source {
+    margin: 12px 22px 0;
+    color: var(--text-muted);
+    font-size: 0.76rem;
+    line-height: 1.5;
+}
+
+.quiz-source a {
+    color: var(--primary);
+    text-underline-offset: 2px;
+}
+
+
+/* MOTION BOOST: layered CSS-only movement for the refreshed interface */
+.site-header {
+    animation: header-glow 9s ease-in-out infinite alternate;
+}
+
+.brand-mark {
+    animation: brand-float 4.2s ease-in-out infinite;
+}
+
+.page-header h1,
+.home-section h2 {
+    animation: title-in 720ms cubic-bezier(0.18, 0.75, 0.3, 1) both;
+}
+
+.hero-panel {
+    transform-style: preserve-3d;
+}
+
+.hero-panel::after {
+    content: "";
+    position: absolute;
+    inset: 12px;
+    z-index: 0;
+    pointer-events: none;
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    border-radius: inherit;
+    opacity: 0.5;
+    animation: hero-frame 8s ease-in-out infinite alternate;
+}
+
+.hero-panel > * {
+    position: relative;
+    z-index: 1;
+}
+
+.news-card,
+.dashboard-card,
+.music-card,
+.forecast-item,
+.weather-stat,
+.disaster-item,
+.today-summary {
+    transform-origin: center bottom;
+}
+
+.news-card:hover,
+.dashboard-card:hover,
+.today-summary:hover {
+    transform: translateY(-5px) rotateX(1.2deg);
+}
+
+.news-card:nth-child(4n + 1) { animation: card-arrive 540ms both, card-hover-a 7s ease-in-out 1.2s infinite; }
+.news-card:nth-child(4n + 2) { animation: card-arrive 540ms both, card-hover-b 8s ease-in-out 1.5s infinite; }
+.music-card:nth-child(3n + 1) { animation: card-arrive 540ms both, card-hover-b 8s ease-in-out 1.3s infinite; }
+.disaster-item:nth-child(odd) { animation: card-arrive 540ms both, card-hover-a 8.5s ease-in-out 1.8s infinite; }
+
+.weather-large-icon,
+.weather-icon {
+    transform-origin: center;
+    animation: weather-bob 3.6s ease-in-out infinite;
+}
+
+.weather-large-icon { animation: weather-bob 3.6s ease-in-out infinite, weather-halo 4s ease-in-out infinite alternate; }
+.forecast-item:nth-child(even) .weather-icon { animation-delay: 500ms; }
+.forecast-item:nth-child(3n) .weather-icon { animation-delay: 950ms; }
+
+.music-artwork {
+    animation: artwork-breathe 5s ease-in-out infinite alternate;
+}
+
+.primary-button,
+.secondary-button,
+.theme-button,
+.icon-button {
+    background-size: 200% 100%;
+    transition: transform 220ms ease, box-shadow 300ms ease, background-position 600ms ease;
+}
+
+.primary-button:hover,
+.secondary-button:hover,
+.theme-button:hover,
+.icon-button:hover {
+    background-position: 100% 0;
+    box-shadow: 0 10px 28px rgba(69, 91, 176, 0.18);
+}
+
+.quiz-option:hover,
+.location-result:hover {
+    animation: option-nudge 380ms ease both;
+}
+
+.eyebrow,
+.section-kicker {
+    animation: label-glint 5s ease-in-out infinite;
+}
+
+@keyframes header-glow {
+    from { box-shadow: 0 8px 30px rgba(31, 45, 90, 0.05); }
+    to { box-shadow: 0 10px 34px rgba(93, 113, 207, 0.13); }
+}
+
+@keyframes brand-float {
+    0%, 100% { transform: translateY(0) rotate(0); }
+    50% { transform: translateY(-3px) rotate(-4deg); }
+}
+
+@keyframes title-in {
+    from { opacity: 0; clip-path: inset(0 0 100% 0); transform: translateY(12px); }
+    to { opacity: 1; clip-path: inset(0 0 0 0); transform: translateY(0); }
+}
+
+@keyframes hero-frame {
+    from { inset: 12px; opacity: 0.22; transform: scale(0.99); }
+    to { inset: 8px; opacity: 0.62; transform: scale(1); }
+}
+
+@keyframes card-hover-a {
+    0%, 100% { translate: 0 0; }
+    50% { translate: 0 -3px; }
+}
+
+@keyframes card-hover-b {
+    0%, 100% { translate: 0 0; }
+    50% { translate: 0 -2px; }
+}
+
+@keyframes weather-bob {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    50% { transform: translateY(-5px) rotate(2deg); }
+}
+
+@keyframes weather-halo {
+    from { filter: drop-shadow(0 0 4px rgba(255, 194, 91, 0.12)); }
+    to { filter: drop-shadow(0 0 13px rgba(255, 194, 91, 0.42)); }
+}
+
+@keyframes artwork-breathe {
+    from { box-shadow: 0 10px 24px rgba(21, 34, 66, 0.12); }
+    to { box-shadow: 0 16px 38px rgba(93, 113, 207, 0.24); }
+}
+
+@keyframes option-nudge {
+    0% { transform: translateX(0); }
+    35% { transform: translateX(5px); }
+    70% { transform: translateX(-2px); }
+    100% { transform: translateX(4px); }
+}
+
+@keyframes label-glint {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.14); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+
+/* ============================================================

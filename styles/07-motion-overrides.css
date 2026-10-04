@@ -1,0 +1,273 @@
+   MOTION / CSS-ONLY INTERACTION
+============================================================ */
+
+:root {
+    --motion-fast: 160ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    --motion-spring: 420ms cubic-bezier(0.18, 0.82, 0.22, 1);
+}
+
+.page.active-page {
+    animation: page-arrive 460ms cubic-bezier(0.2, 0.75, 0.25, 1) both;
+    transform-origin: 50% 0;
+}
+
+.hero-section {
+    animation: hero-arrive 720ms cubic-bezier(0.16, 0.82, 0.22, 1) both;
+}
+
+.hero-section::before {
+    animation: orbit-drift 24s ease-in-out infinite alternate;
+}
+
+.hero-panel::before {
+    animation: aura-breathe 7s ease-in-out infinite alternate;
+}
+
+.eyebrow::before {
+    animation: live-pulse 2.2s ease-in-out infinite;
+}
+
+.hero-panel {
+    animation: panel-arrive 800ms 140ms cubic-bezier(0.16, 0.82, 0.22, 1) both;
+    transition: transform 500ms cubic-bezier(0.2, 0.8, 0.2, 1), border-color var(--transition), box-shadow var(--transition);
+}
+
+.hero-panel:hover {
+    transform: translateY(-5px) rotate(-0.35deg);
+    border-color: rgba(199, 243, 143, 0.36);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 28px 65px rgba(9, 10, 25, 0.30);
+}
+
+.eyebrow,
+.hero-copy h1,
+.hero-copy p,
+.hero-actions {
+    animation: content-arrive 620ms both;
+}
+
+.hero-copy h1 { animation-delay: 70ms; }
+.hero-copy p { animation-delay: 150ms; }
+.hero-actions { animation-delay: 230ms; }
+
+.nav-button {
+    position: relative;
+    transition: color var(--motion-fast), background var(--motion-fast), border-color var(--motion-fast), transform var(--motion-fast);
+}
+
+.nav-button::after {
+    position: absolute;
+    right: 13px;
+    bottom: 5px;
+    left: 13px;
+    height: 2px;
+    border-radius: 2px;
+    background: #c8f18d;
+    content: "";
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.nav-button:hover::after,
+.nav-button.active::after {
+    transform: scaleX(1);
+}
+
+.nav-button:active,
+.footer-link:active {
+    transform: scale(0.96);
+}
+
+.primary-button,
+.secondary-button,
+.icon-button,
+.theme-button,
+.text-button,
+.quiz-option,
+.location-result,
+.footer-link {
+    transition: transform var(--motion-fast), color var(--motion-fast), background var(--motion-fast), border-color var(--motion-fast), box-shadow var(--motion-fast);
+}
+
+.primary-button:active,
+.secondary-button:active,
+.icon-button:active,
+.theme-button:active,
+.text-button:active,
+.quiz-option:active,
+.location-result:active {
+    transform: translateY(1px) scale(0.975);
+}
+
+.dashboard-card,
+.news-card,
+.music-card,
+.forecast-item,
+.weather-stat,
+.disaster-item,
+.settings-card,
+.today-summary {
+    transition: transform 320ms cubic-bezier(0.2, 0.8, 0.2, 1), border-color var(--transition), box-shadow 320ms ease, background var(--transition);
+}
+
+.top-three-grid > :nth-child(1) { animation-delay: 60ms; }
+.top-three-grid > :nth-child(2) { animation-delay: 140ms; }
+.top-three-grid > :nth-child(3) { animation-delay: 220ms; }
+
+.top-three-grid > *,
+.home-dashboard > *,
+.today-summary-grid > *,
+.news-list > *,
+.music-list > *,
+.weather-forecast > *,
+.forecast-list > *,
+.disaster-list > * {
+    animation: card-arrive 540ms both;
+}
+
+.top-three-grid > :nth-child(3n + 2),
+.news-list > :nth-child(3n + 2),
+.music-list > :nth-child(3n + 2) { animation-delay: 70ms; }
+
+.top-three-grid > :nth-child(3n + 3),
+.news-list > :nth-child(3n + 3),
+.music-list > :nth-child(3n + 3) { animation-delay: 140ms; }
+
+.trend-item {
+    transition: padding var(--motion-fast), background var(--motion-fast), color var(--motion-fast), transform var(--motion-fast);
+}
+
+.trend-item:hover {
+    padding-right: 15px;
+    padding-left: 15px;
+    transform: translateX(3px);
+}
+
+.weather-stat:hover,
+.forecast-item:hover,
+.disaster-item:hover,
+.settings-row:hover {
+    transform: translateY(-2px);
+}
+
+.music-card:hover {
+    transform: translateY(-4px) scale(1.008);
+}
+
+.music-artwork {
+    transition: transform 500ms cubic-bezier(0.2, 0.8, 0.2, 1), border-radius 500ms ease, filter 500ms ease;
+}
+
+.music-card:hover .music-artwork {
+    border-radius: 22px;
+    filter: saturate(1.15);
+    transform: rotate(-3deg) scale(1.06);
+}
+
+.quiz-option:hover,
+.location-result:hover {
+    transform: translateX(4px);
+}
+
+:is(button, a, input, textarea, audio, select):focus-visible {
+    outline: 3px solid rgba(104, 88, 245, 0.58);
+    outline-offset: 4px;
+    box-shadow: 0 0 0 7px rgba(104, 88, 245, 0.10);
+}
+
+.site-header:focus-within .brand-mark {
+    box-shadow: 0 0 0 5px rgba(183, 237, 120, 0.14), 0 8px 28px rgba(108, 224, 167, 0.28);
+}
+
+@supports (animation-timeline: view()) {
+    .home-section,
+    .home-dashboard,
+    .today-summary,
+    .page-header {
+        animation: scroll-reveal both linear;
+        animation-timeline: view();
+        animation-range: entry 0% entry 75%;
+    }
+}
+
+@keyframes page-arrive {
+    from { opacity: 0; transform: translateY(14px) scale(0.997); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes hero-arrive {
+    from { opacity: 0; transform: translateY(18px) scale(0.99); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes panel-arrive {
+    from { opacity: 0; transform: translateY(16px) rotate(1deg); }
+    to { opacity: 1; transform: translateY(0) rotate(0); }
+}
+
+@keyframes content-arrive {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes card-arrive {
+    from { opacity: 0; transform: translateY(13px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes orbit-drift {
+    from { transform: translate3d(0, 0, 0) rotate(0deg); }
+    to { transform: translate3d(16px, 11px, 0) rotate(8deg); }
+}
+
+@keyframes aura-breathe {
+    from { opacity: 0.66; transform: scale(0.94); }
+    to { opacity: 1; transform: scale(1.06); }
+}
+
+@keyframes live-pulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(183, 237, 120, 0.42); }
+    50% { opacity: 0.76; box-shadow: 0 0 0 7px rgba(183, 237, 120, 0); }
+}
+
+@keyframes scroll-reveal {
+    from { opacity: 0.35; transform: translateY(22px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (hover: none) {
+    .dashboard-card:hover,
+    .loading-card:hover,
+    .news-card:hover,
+    .music-card:hover,
+    .hero-panel:hover {
+        transform: none;
+    }
+}
+
+@media (max-width: 640px) {
+    .top-three-grid > *,
+    .home-dashboard > *,
+    .today-summary-grid > *,
+    .news-list > *,
+    .music-list > *,
+    .weather-forecast > *,
+    .forecast-list > *,
+    .disaster-list > * {
+        animation-duration: 360ms;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-delay: 0ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* ============================================================
