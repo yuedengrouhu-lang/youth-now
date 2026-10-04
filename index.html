@@ -1,0 +1,2206 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="YOUTH NOW - 若者のためのニュース・天気・防災・音楽・AI情報サイト"
+    >
+
+    <meta
+        name="theme-color"
+        content="#111827"
+    >
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <title>YOUTH NOW</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+    <link
+        rel="stylesheet"
+        href="features.css"
+    >
+    <link rel="manifest" href="/manifest.webmanifest">
+    <link rel="icon" href="/icons/pwa-192.png" type="image/png">
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="anonymous">
+</head>
+
+<body>
+
+    <!-- ======================================================
+         HEADER
+    ======================================================= -->
+
+    <header class="site-header">
+
+        <div class="header-inner">
+
+            <a
+                href="#"
+                class="brand"
+                data-page="home"
+                aria-label="YOUTH NOW ホーム"
+            >
+                <span class="brand-mark">Y</span>
+
+                <span class="brand-text">
+                    <span class="brand-name">
+                        YOUTH NOW
+                    </span>
+
+                    <span class="brand-subtitle">
+                        NEWS &amp; LIFE
+                    </span>
+                </span>
+            </a>
+
+
+            <button
+                type="button"
+                id="menu-button"
+                class="menu-button"
+                aria-label="メニューを開く"
+                aria-controls="main-nav"
+                aria-expanded="false"
+            >
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+
+            <nav
+                id="main-nav"
+                class="main-nav"
+                aria-label="メインナビゲーション"
+            >
+
+                <button
+                    type="button"
+                    class="nav-button active"
+                    data-page="home"
+                >
+                    ホーム
+                </button>
+
+                <button
+                    type="button"
+                    class="nav-button"
+                    data-page="news"
+                >
+                    ニュース
+                </button>
+
+                <button
+                    type="button"
+                    class="nav-button"
+                    data-page="music"
+                >
+                    音楽
+                </button>
+
+                <button
+                    type="button"
+                    class="nav-button"
+                    data-page="weather"
+                >
+                    天気
+                </button>
+
+                <button
+                    type="button"
+                    class="nav-button"
+                    data-page="disaster"
+                >
+                    防災
+                </button>
+
+                <button
+                    type="button"
+                    class="nav-button"
+                    data-page="ai"
+                >
+                    AI
+                </button>
+
+                <button
+                    type="button"
+                    class="nav-button"
+                    data-page="settings"
+                >
+                    設定
+                </button>
+
+            </nav>
+
+
+            <button
+                type="button"
+                id="command-trigger"
+                class="command-trigger"
+                aria-label="サイト内を検索（CtrlまたはCommand + K）"
+            >
+                <span aria-hidden="true">⌕</span>
+                <span class="command-trigger-label">検索</span>
+                <kbd>⌘ / Ctrl K</kbd>
+            </button>
+
+
+            <button
+                type="button"
+                id="theme-button"
+                class="theme-button"
+                aria-label="テーマを切り替える"
+                title="テーマ切替"
+            >
+                <span
+                    class="theme-icon"
+                    aria-hidden="true"
+                >
+                    ◐
+                </span>
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <!-- ======================================================
+         MAIN
+    ======================================================= -->
+
+    <main class="site-main">
+
+
+        <!-- ==================================================
+             HOME PAGE
+        =================================================== -->
+
+        <section
+            id="home-page"
+            class="page active-page"
+            data-page-section="home"
+        >
+
+            <div class="container">
+
+
+                <!-- HERO -->
+
+                <section class="hero-section">
+
+                    <div class="hero-copy">
+
+                        <span class="eyebrow">
+                            YOUTH NOW
+                        </span>
+
+                        <h1>
+                            いま知りたいを、
+                            <br>
+                            ここから。
+                        </h1>
+
+                        <p>
+                            ニュース、音楽、天気、防災、AI。
+                            <br>
+                            毎日の「気になる」をまとめてチェック。
+                        </p>
+
+                        <div class="hero-actions">
+
+                            <button
+                                type="button"
+                                class="primary-button"
+                                data-page="news"
+                            >
+                                ニュースを見る
+                            </button>
+
+                            <button
+                                type="button"
+                                class="secondary-button"
+                                data-page="weather"
+                            >
+                                今日の天気
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="hero-side">
+
+                        <div class="hero-panel">
+
+                            <span class="hero-panel-label">
+                                TODAY
+                            </span>
+
+                            <strong id="today-summary-time">
+                                --
+                            </strong>
+
+                            <p id="today-summary-message">
+                                今日の情報を読み込んでいます…
+                            </p>
+                            <button type="button" id="today-how-button" class="today-how-button">✨ 今日どう？</button>
+                            <p id="today-how-result" class="today-how-result" aria-live="polite"></p>
+                            <button type="button" id="today-share-button" class="secondary-button today-share-button">↗ 今日のまとめを共有</button>
+                            <p id="today-share-status" class="today-share-status" role="status" aria-live="polite"></p>
+                            <button type="button" id="pwa-install-button" class="pwa-install-button" hidden>＋ アプリをインストール</button>
+                            <p id="pwa-status" class="pwa-status" role="status" aria-live="polite"></p>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- TOP THREE -->
+
+                <section class="home-section">
+
+                    <div class="section-heading">
+
+                        <div>
+                            <span class="section-kicker">
+                                PICK UP
+                            </span>
+
+                            <h2>
+                                注目ニュース
+                            </h2>
+                        </div>
+
+                        <button
+                            type="button"
+                            class="text-button"
+                            data-page="news"
+                        >
+                            すべて見る
+                            <span aria-hidden="true">
+                                →
+                            </span>
+                        </button>
+
+                    </div>
+
+
+                    <div
+                        id="top-three"
+                        class="top-three-grid"
+                    >
+
+                        <article class="loading-card">
+                            <span class="loading-line large"></span>
+                            <span class="loading-line"></span>
+                            <span class="loading-line short"></span>
+                        </article>
+
+                        <article class="loading-card">
+                            <span class="loading-line large"></span>
+                            <span class="loading-line"></span>
+                            <span class="loading-line short"></span>
+                        </article>
+
+                        <article class="loading-card">
+                            <span class="loading-line large"></span>
+                            <span class="loading-line"></span>
+                            <span class="loading-line short"></span>
+                        </article>
+
+                    </div>
+
+                </section>
+
+
+                <!-- HOME TWO COLUMN -->
+
+                <section class="home-dashboard">
+
+
+                    <!-- TREND -->
+
+                    <div class="dashboard-card">
+
+                        <div class="card-header">
+
+                            <div>
+                                <span class="section-kicker">
+                                    TREND
+                                </span>
+
+                                <h2>
+                                    話題のキーワード
+                                </h2>
+                            </div>
+
+                        </div>
+
+
+                        <div
+                            id="trend-list"
+                            class="trend-list"
+                        >
+
+                            <div class="trend-placeholder">
+                                情報を読み込んでいます…
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- WEATHER -->
+
+                    <div class="dashboard-card">
+
+                        <div class="card-header">
+
+                            <div>
+                                <span class="section-kicker">
+                                    WEATHER
+                                </span>
+
+                                <h2>
+                                    今日の天気
+                                </h2>
+                            </div>
+
+                            <button
+                                type="button"
+                                class="icon-button"
+                                data-page="weather"
+                                aria-label="天気ページを開く"
+                            >
+                                →
+                            </button>
+
+                        </div>
+
+
+                        <div
+                            id="home-weather-card"
+                            class="home-weather-card"
+                        >
+
+                            <div class="weather-main-row">
+
+                                <div
+                                    id="home-weather-icon"
+                                    class="weather-icon"
+                                    aria-hidden="true"
+                                >
+                                    —
+                                </div>
+
+                                <div class="weather-temperature">
+
+                                    <strong
+                                        id="home-weather-temp"
+                                    >
+                                        --°
+                                    </strong>
+
+                                    <span
+                                        id="home-weather-condition"
+                                    >
+                                        読み込み中
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <div
+                                id="home-weather-location"
+                                class="weather-location"
+                            >
+                                現在地を設定してください
+                            </div>
+
+
+                            <div
+                                id="home-weather-extra"
+                                class="weather-extra"
+                            >
+                                --
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- DISASTER -->
+
+                <section class="home-section">
+
+                    <div class="section-heading">
+
+                        <div>
+                            <span class="section-kicker">
+                                SAFETY
+                            </span>
+
+                            <h2>
+                                防災情報
+                            </h2>
+                        </div>
+
+                        <button
+                            type="button"
+                            class="text-button"
+                            data-page="disaster"
+                        >
+                            防災ページ
+                            <span aria-hidden="true">
+                                →
+                            </span>
+                        </button>
+
+                    </div>
+
+
+                    <div
+                        id="home-disaster-card"
+                        class="home-disaster-card disaster-card"
+                    >
+
+                        <div class="disaster-status-row">
+
+                            <span
+                                id="home-disaster-status"
+                                class="status-badge status-safe"
+                            >
+                                確認中
+                            </span>
+
+                        </div>
+
+
+                        <p
+                            id="home-disaster-summary"
+                            class="disaster-summary"
+                        >
+                            防災情報を読み込んでいます…
+                        </p>
+
+                    </div>
+
+                </section>
+
+
+                <!-- TODAY SUMMARY -->
+
+                <section
+                    id="today-summary"
+                    class="home-section today-summary"
+                >
+
+                    <div class="section-heading">
+
+                        <div>
+                            <span class="section-kicker">
+                                TODAY
+                            </span>
+
+                            <h2>
+                                今日のまとめ
+                            </h2>
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        id="today-summary-grid"
+                        class="today-summary-grid"
+                    >
+
+                        <article
+                            id="today-news-summary"
+                            class="summary-tile"
+                        >
+                            <span class="summary-tile-icon">
+                                NEWS
+                            </span>
+
+                            <h3>
+                                ニュース
+                            </h3>
+
+                            <p>
+                                今日のニュースを確認できます。
+                            </p>
+                        </article>
+
+
+                        <article
+                            id="today-weather-summary"
+                            class="summary-tile"
+                        >
+                            <span class="summary-tile-icon">
+                                WEATHER
+                            </span>
+
+                            <h3>
+                                天気
+                            </h3>
+
+                            <p>
+                                今日の天気を確認できます。
+                            </p>
+                        </article>
+
+
+                        <article
+                            id="today-disaster-summary"
+                            class="summary-tile"
+                        >
+                            <span class="summary-tile-icon">
+                                SAFETY
+                            </span>
+
+                            <h3>
+                                防災
+                            </h3>
+
+                            <p>
+                                最新の防災情報を確認できます。
+                            </p>
+                        </article>
+
+                    </div>
+
+
+                    <div id="today-condition" class="today-condition" data-level="pending">
+                        <div><span class="section-kicker">DAILY CONDITION</span><h3>今日のコンディション</h3><p id="today-condition-label">情報を確認しています</p></div>
+                        <strong id="today-condition-score">—</strong>
+                        <small id="today-condition-coverage">天気・防災・ニュースを集計中</small>
+                    </div>
+
+                    <section class="traffic-status-card" aria-labelledby="traffic-status-title">
+                        <div class="card-header"><div><span class="section-kicker">GETTING AROUND</span><h2 id="traffic-status-title">交通情報</h2></div><button type="button" id="traffic-refresh-button" class="text-button">↻ 更新</button></div>
+                        <p id="traffic-status" class="traffic-status-message" role="status" aria-live="polite">登録地域の交通速報記事を取得しています…</p>
+                        <div id="traffic-list" class="traffic-list" aria-live="polite"></div>
+                        <div class="traffic-footer"><small>記事検索結果です。運行状態の確定情報ではありません。出発前に交通事業者の公式案内を確認してください。</small><span id="traffic-updated">—</span></div>
+                        <div class="traffic-official-links"><a href="https://transit.yahoo.co.jp/diainfo" target="_blank" rel="noopener noreferrer">鉄道運行情報 ↗</a><a href="https://www.jartic.or.jp/" target="_blank" rel="noopener noreferrer">道路交通情報 ↗</a></div>
+                    </section>
+
+                    <div
+                        id="today-summary-bottom"
+                        class="today-summary-bottom"
+                    >
+                        更新情報を準備しています。
+                    </div>
+
+                </section>
+
+
+                <!-- QUIZ -->
+
+                <section
+                    id="quiz"
+                    class="home-section"
+                >
+
+                    <div class="section-heading">
+
+                        <div>
+                            <span class="section-kicker">
+                                DAILY QUIZ
+                            </span>
+
+                            <h2>
+                                今日のミニクイズ
+                            </h2>
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        id="quiz-card"
+                        class="quiz-card"
+                    >
+
+                        <div class="quiz-header">
+
+                            <span class="quiz-number">
+                                Q
+                            </span>
+
+                            <span class="quiz-label">
+                                YOUTH NOW QUIZ
+                            </span>
+
+                        </div>
+
+                        <p id="quiz-source" class="quiz-source">
+                            問題データ出典：<a href="https://www.wikidata.org/wiki/Q50337" target="_blank" rel="noopener noreferrer">Wikidata</a>（日本の都道府県・庁所在地）
+                        </p>
+
+                        <div class="quiz-progress" id="quiz-progress" aria-label="クイズの記録">
+                            <div><strong id="quiz-play-count">0</strong><span>回答</span></div>
+                            <div><strong id="quiz-correct-count">0</strong><span>正解</span></div>
+                            <div><strong id="quiz-streak-count">0</strong><span>連続日</span></div>
+                            <div class="quiz-progress-best"><strong id="quiz-best-streak">最高 0日</strong><span>ベスト記録</span></div>
+                        </div>
+
+
+                        <div class="quiz-content">
+
+                            <p
+                                id="quiz-question"
+                                class="quiz-question"
+                            >
+                                今日の問題を読み込んでいます…
+                            </p>
+
+
+                            <div
+                                id="quiz-options"
+                                class="quiz-options"
+                            >
+
+                                <button
+                                    type="button"
+                                    class="quiz-option"
+                                    data-quiz-option="0"
+                                >
+                                    選択肢A
+                                </button>
+
+                                <button
+                                    type="button"
+                                    class="quiz-option"
+                                    data-quiz-option="1"
+                                >
+                                    選択肢B
+                                </button>
+
+                                <button
+                                    type="button"
+                                    class="quiz-option"
+                                    data-quiz-option="2"
+                                >
+                                    選択肢C
+                                </button>
+
+                                <button
+                                    type="button"
+                                    class="quiz-option"
+                                    data-quiz-option="3"
+                                >
+                                    選択肢D
+                                </button>
+
+                            </div>
+
+
+                            <div
+                                id="quiz-result"
+                                class="quiz-result"
+                                aria-live="polite"
+                            ></div>
+
+
+                            <button
+                                type="button"
+                                id="quiz-next"
+                                class="secondary-button quiz-next"
+                            >
+                                次の問題
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ==================================================
+             NEWS PAGE
+        =================================================== -->
+
+        <section
+            id="news-page"
+            class="page"
+            data-page-section="news"
+            hidden
+        >
+
+            <div class="container">
+
+                <div class="page-header">
+
+                    <div>
+
+                        <span class="section-kicker">
+                            NEWS
+                        </span>
+
+                        <h1>
+                            ニュース
+                        </h1>
+
+                        <p>
+                            気になるカテゴリーから最新情報をチェック。
+                        </p>
+
+                    </div>
+
+
+                    <div class="page-header-meta">
+
+                        <span>
+                            最終更新
+                        </span>
+
+                        <strong id="last-updated">
+                            --
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <!-- NEWS CATEGORY -->
+
+                <div class="news-category-wrap">
+
+                    <div
+                        class="news-category-bar"
+                        role="tablist"
+                        aria-label="ニュースカテゴリー"
+                    >
+
+                        <button
+                            type="button"
+                            class="category-button active"
+                            data-category="TOP"
+                            role="tab"
+                            aria-selected="true"
+                        >
+                            トップ
+                        </button>
+
+                        <button
+                            type="button"
+                            class="category-button"
+                            data-category="NEWS"
+                            role="tab"
+                            aria-selected="false"
+                        >
+                            国内
+                        </button>
+
+                        <button
+                            type="button"
+                            class="category-button"
+                            data-category="WORLD"
+                            role="tab"
+                            aria-selected="false"
+                        >
+                            世界
+                        </button>
+
+                        <button
+                            type="button"
+                            class="category-button"
+                            data-category="SPORTS"
+                            role="tab"
+                            aria-selected="false"
+                        >
+                            スポーツ
+                        </button>
+
+                        <button
+                            type="button"
+                            class="category-button"
+                            data-category="ENTERTAINMENT"
+                            role="tab"
+                            aria-selected="false"
+                        >
+                            エンタメ
+                        </button>
+
+                        <button
+                            type="button"
+                            class="category-button"
+                            data-category="SCIENCE"
+                            role="tab"
+                            aria-selected="false"
+                        >
+                            科学
+                        </button>
+
+                        <button
+                            type="button"
+                            class="category-button"
+                            data-category="TECHNOLOGY"
+                            role="tab"
+                            aria-selected="false"
+                        >
+                            テクノロジー
+                        </button>
+
+                        <button
+                            type="button"
+                            class="category-button"
+                            data-category="GAME"
+                            role="tab"
+                            aria-selected="false"
+                        >
+                            ゲーム
+                        </button>
+
+                        <button
+                            type="button"
+                            class="category-button"
+                            data-category="AI-TECH"
+                            role="tab"
+                            aria-selected="false"
+                        >
+                            AI・TECH
+                        </button>
+
+                        <button
+                            type="button"
+                            class="category-button"
+                            data-category="FAVORITES"
+                            role="tab"
+                            aria-selected="false"
+                        >
+                            お気に入り
+                        </button>
+
+                        <button
+                            type="button"
+                            class="category-button"
+                            data-category="READ_LATER"
+                            role="tab"
+                            aria-selected="false"
+                        >
+                            あとで読む
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- NEWS TOOLBAR -->
+
+                <div class="news-toolbar">
+
+                    <div class="search-box">
+
+                        <label
+                            for="search-input"
+                            class="sr-only"
+                        >
+                            ニュースを検索
+                        </label>
+
+                        <span
+                            class="search-icon"
+                            aria-hidden="true"
+                        >
+                            🔎
+                        </span>
+
+                        <input
+                            type="search"
+                            id="search-input"
+                            placeholder="ニュースを検索…"
+                            autocomplete="off"
+                        >
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        id="refresh-button"
+                        class="secondary-button"
+                    >
+                        <span class="disaster-refresh-icon" aria-hidden="true">↻</span>
+                        <span>更新</span>
+                    </button>
+
+                </div>
+
+                <section class="topic-follow-card" aria-labelledby="topic-follow-title">
+                    <div class="topic-follow-heading">
+                        <div><span class="section-kicker">YOUR TOPICS</span><h2 id="topic-follow-title">気になるキーワード</h2></div>
+                        <span id="topic-follow-count" class="topic-follow-count">0件登録</span>
+                    </div>
+                    <p>登録した言葉に合うニュースを上に表示します。登録内容はこの端末に保存されます。</p>
+                    <form id="topic-follow-form" class="topic-follow-form">
+                        <label class="sr-only" for="topic-follow-input">登録するキーワード</label>
+                        <input id="topic-follow-input" type="text" maxlength="32" autocomplete="off" placeholder="例：宇宙、サッカー、AI">
+                        <button type="submit" class="secondary-button">追加</button>
+                    </form>
+                    <div id="topic-follow-list" class="topic-follow-list" aria-label="登録済みキーワード"></div>
+                    <p id="topic-follow-status" class="topic-follow-status" role="status" aria-live="polite"></p>
+                </section>
+
+
+                <!-- NEWS STATUS -->
+
+                <div
+                    id="news-status"
+                    class="page-message"
+                    aria-live="polite"
+                ></div>
+
+
+                <!-- NEWS LIST -->
+
+                <div
+                    id="news-list"
+                    class="news-list"
+                    aria-live="polite"
+                >
+
+                    <article class="news-card loading-card">
+
+                        <span class="loading-line large"></span>
+                        <span class="loading-line"></span>
+                        <span class="loading-line"></span>
+
+                    </article>
+
+                    <article class="news-card loading-card">
+
+                        <span class="loading-line large"></span>
+                        <span class="loading-line"></span>
+                        <span class="loading-line"></span>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ==================================================
+             MUSIC PAGE
+        =================================================== -->
+
+        <section
+            id="music-page"
+            class="page"
+            data-page-section="music"
+            hidden
+        >
+
+            <div class="container">
+
+                <div class="page-header">
+
+                    <div>
+
+                        <span class="section-kicker">
+                            MUSIC
+                        </span>
+
+                        <h1>
+                            音楽
+                        </h1>
+
+                        <p>
+                            曲を検索して試聴しよう。
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="music-search">
+
+                    <label
+                        for="music-search-input"
+                        class="sr-only"
+                    >
+                        音楽を検索
+                    </label>
+
+                    <input
+                        type="search"
+                        id="music-search-input"
+                        placeholder="アーティスト・曲名を検索…"
+                        autocomplete="off"
+                    >
+
+                    <button
+                        type="button"
+                        id="music-search-button"
+                        class="primary-button"
+                    >
+                        検索
+                    </button>
+
+                </div>
+
+
+                <div
+                    id="music-message"
+                    class="page-message"
+                    aria-live="polite"
+                ></div>
+
+
+                <div
+                    id="music-list"
+                    class="music-list"
+                    aria-live="polite"
+                >
+
+                    <article class="music-card loading-card">
+
+                        <span class="loading-line large"></span>
+                        <span class="loading-line"></span>
+
+                    </article>
+
+                    <article class="music-card loading-card">
+
+                        <span class="loading-line large"></span>
+                        <span class="loading-line"></span>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ==================================================
+             WEATHER PAGE
+        =================================================== -->
+
+        <section
+            id="weather-page"
+            class="page"
+            data-page-section="weather"
+            hidden
+        >
+
+            <div class="container">
+
+                <div class="page-header">
+
+                    <div>
+
+                        <span class="section-kicker">
+                            WEATHER
+                        </span>
+
+                        <h1>
+                            天気
+                        </h1>
+
+                        <p>
+                            場所を指定して天気を確認できます。
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- WEATHER LOCATION -->
+
+                <div class="location-tools">
+
+                    <label
+                        for="location-input"
+                        class="sr-only"
+                    >
+                        地域を検索
+                    </label>
+
+                    <input
+                        type="search"
+                        id="location-input"
+                        placeholder="市区町村・地域名を入力…"
+                        autocomplete="off"
+                    >
+
+                    <button
+                        type="button"
+                        id="location-search-button"
+                        class="primary-button"
+                    >
+                        検索
+                    </button>
+
+                    <button
+                        type="button"
+                        id="current-location-button"
+                        class="secondary-button"
+                    >
+                        現在地を使う
+                    </button>
+
+                </div>
+
+
+                <div
+                    id="weather-message"
+                    class="page-message"
+                    aria-live="polite"
+                ></div>
+
+
+                <!-- WEATHER MAIN -->
+
+                <div
+                    id="weather-main"
+                    class="weather-page-main"
+                >
+
+                    <div class="weather-main-card">
+
+                        <div class="weather-card-top">
+
+                            <div>
+
+                                <span class="section-kicker">
+                                    CURRENT
+                                </span>
+
+                                <h2 id="weather-location-name">
+                                    天気情報
+                                </h2>
+
+                            </div>
+
+                            <span
+                                id="weather-updated"
+                                class="updated-label"
+                            >
+                                --
+                            </span>
+
+                        </div>
+
+
+                        <div class="weather-current-layout">
+
+                            <div
+                                id="weather-icon"
+                                class="weather-large-icon"
+                                aria-hidden="true"
+                            >
+                                ☁
+                            </div>
+
+
+                            <div class="weather-temperature-block">
+
+                                <strong
+                                    id="weather-temperature"
+                                    class="weather-large-temperature"
+                                >
+                                    --°
+                                </strong>
+
+                                <span
+                                    id="weather-condition"
+                                    class="weather-condition"
+                                >
+                                    読み込み中
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="weather-stats">
+
+                            <div class="weather-stat">
+
+                                <span>
+                                    体感温度
+                                </span>
+
+                                <strong id="weather-apparent">
+                                    --°
+                                </strong>
+
+                            </div>
+
+
+                            <div class="weather-stat">
+
+                                <span>
+                                    湿度
+                                </span>
+
+                                <strong id="weather-humidity">
+                                    --%
+                                </strong>
+
+                            </div>
+
+
+                            <div class="weather-stat">
+
+                                <span>
+                                    風速
+                                </span>
+
+                                <strong id="weather-wind">
+                                    -- km/h
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- WEATHER FORECAST -->
+
+                    <div class="forecast-card">
+
+                        <div class="card-header">
+
+                            <div>
+                                <span class="section-kicker">
+                                    FORECAST
+                                </span>
+
+                                <h2>
+                                    週間予報
+                                </h2>
+                            </div>
+
+                            <button
+                                type="button"
+                                id="weather-refresh-button"
+                                class="icon-button"
+                                aria-label="天気を更新"
+                                title="更新"
+                            >
+                                ↻
+                            </button>
+
+                        </div>
+
+
+                        <div
+                            id="weather-forecast"
+                            class="weather-forecast"
+                        >
+
+                            <div class="forecast-loading">
+                                天気予報を読み込んでいます…
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <section class="saved-location-card" aria-labelledby="saved-locations-title">
+                    <div class="card-header"><div><span class="section-kicker">MY PLACES</span><h2 id="saved-locations-title">家・学校・職場の地点</h2></div></div>
+                    <p>現在の天気検索地点を登録できます。防災情報とニュースの地域判定にも使います。</p>
+                    <div class="saved-location-controls">
+                        <label for="saved-location-label">登録名</label>
+                        <select id="saved-location-label"><option value="家">家</option><option value="学校">学校</option><option value="職場">職場</option></select>
+                        <button type="button" id="save-location-profile" class="secondary-button">現在の地点を登録</button>
+                    </div>
+                    <div id="saved-location-list" class="saved-location-list" aria-live="polite"></div>
+                </section>
+
+                <section class="weather-timeline-card" aria-labelledby="weather-timeline-title">
+                    <div class="card-header"><div><span class="section-kicker">NEXT HOURS</span><h2 id="weather-timeline-title">これからの天気</h2></div><span class="timeline-hint">横にスクロール</span></div>
+                    <p id="weather-rain-note" class="weather-rain-note" aria-live="polite">時間別予報を読み込んでいます…</p>
+                    <div id="weather-timeline" class="weather-timeline" aria-label="時間別天気予報"></div>
+                </section>
+
+            </div>
+
+        </section>
+
+        <!-- ==================================================
+             DISASTER PAGE
+        =================================================== -->
+
+        <section
+            id="disaster-page"
+            class="page"
+            data-page-section="disaster"
+            hidden
+        >
+
+            <div class="container">
+
+                <div class="page-header">
+
+                    <div>
+
+                        <span class="section-kicker">
+                            SAFETY
+                        </span>
+
+                        <h1>
+                            防災
+                        </h1>
+
+                        <p>
+                            全国の速報と情報取得状況を確認。避難情報は自治体の発表も必ずご確認ください。
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        id="disaster-refresh-button"
+                        class="secondary-button"
+                    >
+                        ↻ 更新
+                    </button>
+
+                </div>
+
+
+                <div
+                    id="disaster-message"
+                    class="page-message"
+                    aria-live="polite"
+                ></div>
+
+
+                <section id="disaster-overview" class="disaster-overview" aria-labelledby="disaster-overview-title" data-state="loading">
+                    <div class="disaster-overview-main">
+                        <span class="section-kicker">LIVE SITUATION · JAPAN</span>
+                        <div class="disaster-status-line">
+                            <span id="disaster-overall-status" class="disaster-overall-status is-loading" role="status">情報を確認中</span>
+                            <span id="disaster-data-status" class="disaster-data-status">気象庁データに接続しています</span>
+                        </div>
+                        <h2 id="disaster-overview-title">まず、最新の発表を確認</h2>
+                        <p id="disaster-overview-message">データ取得後に、警報・注意報などの件数を表示します。</p>
+                    </div>
+                    <div class="disaster-metrics" aria-label="掲載中の情報件数">
+                        <div class="disaster-metric is-alert"><strong id="disaster-alert-count">—</strong><span>警報・注意報</span></div>
+                        <div class="disaster-metric"><strong id="disaster-earthquake-count">—</strong><span>地震情報</span></div>
+                        <div class="disaster-metric"><strong id="disaster-tsunami-count">—</strong><span>津波関連報</span></div>
+                    </div>
+                    <div class="disaster-overview-footer">
+                        <span>最終確認 <time id="disaster-updated-at">—</time></span>
+                        <span class="disaster-scope-note">全国速報です。お住まいの地域の避難指示は自治体情報をご確認ください。</span>
+                    </div>
+                </section>
+
+
+                <section class="disaster-official-links" aria-label="公式防災情報">
+                    <a href="https://www.jma.go.jp/bosai/" target="_blank" rel="noopener noreferrer">
+                        <span class="official-link-icon">↗</span>
+                        <span><strong>気象庁 防災情報</strong><small>警報・地震・津波・台風</small></span>
+                    </a>
+                    <a href="https://disaportal.gsi.go.jp/" target="_blank" rel="noopener noreferrer">
+                        <span class="official-link-icon">⌖</span>
+                        <span><strong>ハザードマップ</strong><small>自宅や職場周辺の災害リスク</small></span>
+                    </a>
+                    <a href="https://www.bousai.go.jp/taisaku/hinanbasyo.html" target="_blank" rel="noopener noreferrer">
+                        <span class="official-link-icon">↗</span>
+                        <span><strong>指定緊急避難場所</strong><small>自治体が指定した避難場所</small></span>
+                    </a>
+                </section>
+
+
+                <section class="disaster-intelligence" aria-labelledby="disaster-intel-title">
+                    <div class="card-header"><div><span class="section-kicker">LOCAL ALERTS</span><h2 id="disaster-intel-title">🔔 防災インテリジェント通知</h2></div><button type="button" id="disaster-notification-enable" class="text-button">デスクトップ通知を有効化</button></div>
+                    <p id="disaster-local-status" class="disaster-local-status" role="status" aria-live="polite">現在地周辺への影響を確認しています…</p>
+                    <div id="disaster-intel-list" class="disaster-intel-list"></div>
+                    <details class="notification-settings">
+                        <summary>通知する情報と時間帯を設定</summary>
+                        <div class="notification-settings-grid">
+                            <label><input type="checkbox" data-notify-type="alert" checked> 警報・注意報</label>
+                            <label><input type="checkbox" data-notify-type="tsunami" checked> 津波情報</label>
+                            <label><input type="checkbox" data-notify-type="earthquake" checked> 地震情報</label>
+                            <label>地震の最低震度<select id="notification-min-intensity"><option value="1">震度1以上</option><option value="2">震度2以上</option><option value="3" selected>震度3以上</option><option value="4">震度4以上</option><option value="5">震度5弱以上</option><option value="6">震度5強以上</option><option value="7">震度6弱以上</option></select></label>
+                            <label>通知しない時間（開始）<input id="notification-quiet-start" type="time" value="22:00"></label>
+                            <label>通知しない時間（終了）<input id="notification-quiet-end" type="time" value="07:00"></label>
+                        </div>
+                        <button type="button" id="save-notification-settings" class="secondary-button">通知設定を保存</button>
+                        <p id="notification-settings-status" class="notification-settings-note" role="status" aria-live="polite"></p>
+                        <p class="notification-settings-note">静かな時間にも、このページ内の防災情報は表示されます。</p>
+                    </details>
+                </section>
+
+                <section class="data-freshness-card" aria-labelledby="data-freshness-title">
+                    <div><span class="section-kicker">DATA STATUS</span><h2 id="data-freshness-title">情報源の更新状況</h2></div>
+                    <div id="data-freshness-grid" class="data-freshness-grid" aria-live="polite"></div>
+                </section>
+
+                <section id="evacuation-mode-panel" class="evacuation-mode-panel" hidden aria-labelledby="evacuation-mode-title">
+                    <div class="evacuation-mode-header"><div><span class="section-kicker">FOCUS MODE</span><h2 id="evacuation-mode-title">避難時の確認</h2></div><button type="button" id="close-evacuation-mode" class="secondary-button">閉じる</button></div>
+                    <p id="evacuation-mode-status" role="status" aria-live="polite"></p>
+                    <p>周囲の状況と自治体からの避難情報を確認してください。危険を感じる場合は、安全な場所へ移動してください。</p>
+                    <div class="evacuation-mode-links"><a href="https://www.jma.go.jp/bosai/" target="_blank" rel="noopener noreferrer">気象庁 防災情報 ↗</a><a href="https://disaportal.gsi.go.jp/" target="_blank" rel="noopener noreferrer">ハザードマップ ↗</a><a href="https://www.bousai.go.jp/taisaku/hinanbasyo.html" target="_blank" rel="noopener noreferrer">指定避難場所 ↗</a></div>
+                    <a class="evacuation-map-link" href="#disaster-map">防災マップを確認 ↓</a>
+                </section>
+                <button type="button" id="open-evacuation-mode" class="evacuation-mode-button">避難時の確認モードを開く</button>
+
+                <section class="disaster-map-card" aria-labelledby="disaster-map-title">
+                    <div class="card-header"><div><span class="section-kicker">LIVE MAP</span><h2 id="disaster-map-title">🗺️ 防災マップ</h2></div><button type="button" id="disaster-map-locate" class="text-button">設定地域へ移動</button></div>
+                    <p id="disaster-map-status" class="map-status" role="status">地図データを準備しています…</p>
+                    <div class="disaster-map-controls"><label><input type="checkbox" data-map-layer="earthquakes" checked> 地震</label><label><input type="checkbox" data-map-layer="alerts" checked> 警報・津波</label><label><input type="checkbox" data-map-layer="shelters" checked> 避難場所</label></div>
+                    <div id="disaster-map" class="disaster-map" aria-label="現在地周辺の防災情報マップ"></div>
+                    <p class="map-disclaimer">避難所データは地理院タイルを使用しています。最新の開設状況は自治体の発表をご確認ください。</p>
+                </section>
+
+                <!-- DISASTER ALERT -->
+
+                <section class="disaster-section">
+
+                    <div class="section-heading compact">
+
+                        <div>
+                            <span class="section-kicker">
+                                ALERT
+                            </span>
+
+                            <h2>
+                                警報・注意報
+                            </h2>
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        id="disaster-alert-list"
+                        class="disaster-list"
+                    >
+
+                        <div class="empty-card">
+                            情報を読み込んでいます…
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- EARTHQUAKE -->
+
+                <section class="disaster-section">
+
+                    <div class="section-heading compact">
+
+                        <div>
+                            <span class="section-kicker">
+                                EARTHQUAKE
+                            </span>
+
+                            <h2>
+                                地震
+                            </h2>
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        id="earthquake-list"
+                        class="disaster-list"
+                    >
+
+                        <div class="empty-card">
+                            地震情報を読み込んでいます…
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- TSUNAMI -->
+
+                <section class="disaster-section">
+
+                    <div class="section-heading compact">
+
+                        <div>
+                            <span class="section-kicker">
+                                TSUNAMI
+                            </span>
+
+                            <h2>
+                                津波関連情報
+                            </h2>
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        id="tsunami-list"
+                        class="disaster-list"
+                    >
+
+                        <div class="empty-card">
+                            津波情報を読み込んでいます…
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- TYPHOON -->
+
+                <section class="disaster-section">
+
+                    <div class="section-heading compact">
+
+                        <div>
+                            <span class="section-kicker">
+                                TYPHOON
+                            </span>
+
+                            <h2>
+                                台風
+                            </h2>
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        id="typhoon-list"
+                        class="disaster-list"
+                    >
+
+                        <div class="empty-card">
+                            台風情報を確認しています…
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <section class="disaster-prep-card" aria-labelledby="disaster-prep-title">
+                    <div class="disaster-prep-heading">
+                        <div>
+                            <span class="section-kicker">READY BEFORE IT HAPPENS</span>
+                            <h2 id="disaster-prep-title">今日の防災チェック</h2>
+                            <p>チェック状況はこの端末に保存されます。</p>
+                        </div>
+                        <div class="prep-progress" aria-live="polite"><strong id="prep-progress-count">0 / 4</strong><span>完了</span></div>
+                    </div>
+                    <div class="prep-progress-track" aria-hidden="true"><span id="prep-progress-bar"></span></div>
+                    <div class="prep-checklist">
+                        <label class="prep-check-item"><input type="checkbox" data-prep-check="hazard"><span class="prep-check-mark" aria-hidden="true">✓</span><span><strong>自宅周辺のハザードマップを確認</strong><small>洪水・土砂災害・津波などのリスクを確認</small></span></label>
+                        <label class="prep-check-item"><input type="checkbox" data-prep-check="route"><span class="prep-check-mark" aria-hidden="true">✓</span><span><strong>避難先と安全な経路を共有</strong><small>家族や一緒に暮らす人と連絡方法も確認</small></span></label>
+                        <label class="prep-check-item"><input type="checkbox" data-prep-check="supplies"><span class="prep-check-mark" aria-hidden="true">✓</span><span><strong>水・食料・常備薬を点検</strong><small>家族構成や必要なものに合わせて見直す</small></span></label>
+                        <label class="prep-check-item"><input type="checkbox" data-prep-check="power"><span class="prep-check-mark" aria-hidden="true">✓</span><span><strong>ライトと充電手段を確認</strong><small>懐中電灯・予備電池・モバイルバッテリー</small></span></label>
+                    </div>
+                    <a class="prep-source-link" href="https://www.fdma.go.jp/relocation/bousai_manual/too/tool.html" target="_blank" rel="noopener noreferrer">消防庁の防災チェックシートを見る <span aria-hidden="true">↗</span></a>
+                </section>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ==================================================
+             AI PAGE
+        =================================================== -->
+
+        <section
+            id="ai-page"
+            class="page"
+            data-page-section="ai"
+            hidden
+        >
+
+            <div class="container">
+
+                <div class="page-header">
+
+                    <div>
+
+                        <span class="section-kicker">
+                            AI
+                        </span>
+
+                        <h1>
+                            YOUTH AI
+                        </h1>
+
+                        <p>
+                            サイトの天気・防災・ニュースを踏まえて、一緒に整理するローカルAI。
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="ai-layout">
+
+
+                    <!-- AI INPUT -->
+
+                    <div class="ai-panel">
+
+                        <div class="ai-panel-header">
+
+                            <div>
+
+                                <span class="section-kicker">
+                                    ASK AI
+                                </span>
+
+                                <h2>
+                                    質問する
+                                </h2>
+
+                            </div>
+
+
+                            <span
+                                id="ai-status"
+                                class="ai-status"
+                            >
+                                待機中
+                            </span>
+
+                        </div>
+
+                        <p class="ai-model-note">モデルのダウンロードは不要です。Groq APIのFreeプランを使います。APIアカウントとキーは18歳以上の保護者が作成・管理し、保護者と一緒に利用してください。質問と、回答に使う天気・防災・ニュース・交通情報はGroqへ送信されます。氏名・住所・電話番号・学校名などの個人情報は入力しないでください。無料枠には利用上限があります。<a href="https://console.groq.com/keys" target="_blank" rel="noopener noreferrer">保護者がAPIキーを作成</a></p>
+
+                        <div class="ai-suggestions" aria-label="質問例">
+                            <button type="button" data-ai-prompt="今日の天気と防災情報を、外出前に確認するポイントでまとめて">今日の状況をまとめる</button>
+                            <button type="button" data-ai-prompt="登録した地域に関係するニュースを、影響と確認先に分けて教えて">地域ニュースを見る</button>
+                            <button type="button" data-ai-prompt="大雨への備えを、今すぐできることから順番に教えて">防災の準備を相談</button>
+                            <button type="button" data-ai-prompt="難しいニュースを中学生にも分かる言葉で説明して">ニュースをやさしく説明</button>
+                        </div>
+
+
+                        <label
+                            for="ai-input"
+                            class="sr-only"
+                        >
+                            AIへの質問
+                        </label>
+
+                        <textarea
+                            id="ai-input"
+                            rows="7"
+                            placeholder="質問を入力してください…"
+                            maxlength="3000"
+                        ></textarea>
+
+
+                        <div class="ai-actions">
+
+                            <button
+                                type="button"
+                                id="ai-send"
+                                class="primary-button"
+                            >
+                                送信
+                            </button>
+
+                            <button
+                                type="button"
+                                id="ai-clear"
+                                class="secondary-button"
+                            >
+                                クリア
+                            </button>
+
+                        </div>
+
+                        <p class="ai-input-hint">Enterで改行・Ctrl + Enterで送信</p>
+
+                    </div>
+
+
+                    <!-- AI OUTPUT -->
+
+                    <div class="ai-panel ai-output-panel">
+
+                        <div class="ai-panel-header">
+
+                            <div>
+
+                                <span class="section-kicker">
+                                    ANSWER
+                                </span>
+
+                                <h2>
+                                    AIの回答
+                                </h2>
+
+                            </div>
+
+                            <button type="button" id="ai-copy-button" class="text-button" disabled>会話をコピー</button>
+
+                        </div>
+
+
+                        <div
+                            id="ai-output"
+                            class="ai-output"
+                            aria-live="polite"
+                            aria-label="AIの回答"
+                        >
+                            <div class="ai-empty">
+
+                                <span
+                                    class="ai-empty-icon"
+                                    aria-hidden="true"
+                                >
+                                    AI
+                                </span>
+
+                                <p>
+                                    ここにAIの回答が表示されます。
+                                </p>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ==================================================
+             SETTINGS PAGE
+        =================================================== -->
+
+        <section
+            id="settings-page"
+            class="page"
+            data-page-section="settings"
+            hidden
+        >
+
+            <div class="container">
+
+                <div class="page-header">
+
+                    <div>
+
+                        <span class="section-kicker">
+                            SETTINGS
+                        </span>
+
+                        <h1>
+                            設定
+                        </h1>
+
+                        <p>
+                            YOUTH NOWの場所などを設定できます。
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- LOCATION SETTINGS -->
+
+                <section class="settings-section">
+
+                    <div class="settings-card">
+
+                        <div class="settings-card-header">
+
+                            <div>
+
+                                <span class="section-kicker">
+                                    LOCATION
+                                </span>
+
+                                <h2>
+                                    地域設定
+                                </h2>
+
+                            </div>
+
+                        </div>
+
+
+                        <p class="settings-description">
+                            天気などで使用する地域を設定できます。
+                        </p>
+
+
+                        <div class="settings-current">
+
+                            <span>
+                                現在の地域
+                            </span>
+
+                            <strong
+                                id="settings-location-name"
+                            >
+                                未設定
+                            </strong>
+
+                        </div>
+
+
+                        <div class="location-tools settings-location-tools">
+
+                            <label
+                                for="settings-location-input"
+                                class="sr-only"
+                            >
+                                地域を検索
+                            </label>
+
+                            <input
+                                type="search"
+                                id="settings-location-input"
+                                placeholder="地域名を入力…"
+                                autocomplete="off"
+                            >
+
+                            <button
+                                type="button"
+                                id="settings-location-search-button"
+                                class="primary-button"
+                            >
+                                地域を検索
+                            </button>
+
+                            <button
+                                type="button"
+                                id="settings-current-location-button"
+                                class="secondary-button"
+                            >
+                                現在地を取得
+                            </button>
+
+                        </div>
+
+
+                        <div
+                            id="settings-location-message"
+                            class="page-message"
+                            aria-live="polite"
+                        ></div>
+
+
+                        <div
+                            id="settings-location-results"
+                            class="settings-location-results"
+                        ></div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- THEME SETTINGS -->
+
+                <section class="settings-section">
+
+                    <div class="settings-card">
+
+                        <div class="settings-card-header">
+
+                            <div>
+
+                                <span class="section-kicker">
+                                    APPEARANCE
+                                </span>
+
+                                <h2>
+                                    表示設定
+                                </h2>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="settings-row">
+
+                            <div>
+
+                                <strong>
+                                    テーマ
+                                </strong>
+
+                                <p>
+                                    明るい表示と暗い表示を切り替えます。
+                                </p>
+
+                            </div>
+
+
+                            <button
+                                type="button"
+                                class="secondary-button"
+                                id="settings-theme-button"
+                            >
+                                テーマを切り替える
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- ABOUT -->
+
+                <section class="settings-section">
+
+                    <div class="settings-card">
+
+                        <div class="settings-card-header">
+
+                            <div>
+
+                                <span class="section-kicker">
+                                    ABOUT
+                                </span>
+
+                                <h2>
+                                    YOUTH NOW
+                                </h2>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="about-content">
+
+                            <p>
+                                YOUTH NOWはニュース、天気、防災、
+                                音楽、AIなどをまとめて見るための
+                                情報サイトです。
+                            </p>
+
+                            <span class="version-label">
+                                YOUTH NOW / 8.0
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ======================================================
+         FOOTER
+    ======================================================= -->
+
+    <footer class="site-footer">
+
+        <div class="container footer-inner">
+
+            <div class="footer-brand">
+
+                <strong>
+                    YOUTH NOW
+                </strong>
+
+                <span>
+                    NEWS &amp; LIFE
+                </span>
+
+            </div>
+
+
+            <div class="footer-links">
+
+                <button
+                    type="button"
+                    data-page="home"
+                    class="footer-link"
+                >
+                    ホーム
+                </button>
+
+                <button
+                    type="button"
+                    data-page="news"
+                    class="footer-link"
+                >
+                    ニュース
+                </button>
+
+                <button
+                    type="button"
+                    data-page="music"
+                    class="footer-link"
+                >
+                    音楽
+                </button>
+
+                <button
+                    type="button"
+                    data-page="weather"
+                    class="footer-link"
+                >
+                    天気
+                </button>
+
+                <button
+                    type="button"
+                    data-page="disaster"
+                    class="footer-link"
+                >
+                    防災
+                </button>
+
+            </div>
+
+
+            <div class="footer-copy">
+                &copy; YOUTH NOW
+            </div>
+
+        </div>
+
+    </footer>
+
+
+    <dialog
+        id="command-palette"
+        class="command-palette"
+        aria-labelledby="command-title"
+    >
+        <div class="command-panel">
+            <div class="command-heading">
+                <div>
+                    <span class="section-kicker">SITE-WIDE SEARCH</span>
+                <h2 id="command-title">サイト内を検索</h2>
+                </div>
+                <kbd>ESC</kbd>
+            </div>
+            <label class="command-search">
+                <span aria-hidden="true">⌕</span>
+                <input
+                    id="command-search"
+                    type="search"
+                    placeholder="ページ・ニュース・防災情報を検索…"
+                    autocomplete="off"
+                    aria-label="サイト全体を検索"
+                    aria-controls="command-results command-content-results"
+                >
+            </label>
+            <div id="command-results" class="command-results" role="listbox" aria-label="移動先">
+                <button type="button" class="command-option" data-command-page="home" role="option"><span class="command-option-icon">⌂</span><span>ホーム</span></button>
+                <button type="button" class="command-option" data-command-page="news" role="option"><span class="command-option-icon">◫</span><span>ニュース</span></button>
+                <button type="button" class="command-option" data-command-page="music" role="option"><span class="command-option-icon">♫</span><span>音楽</span></button>
+                <button type="button" class="command-option" data-command-page="weather" role="option"><span class="command-option-icon">☼</span><span>天気</span></button>
+                <button type="button" class="command-option" data-command-page="disaster" role="option"><span class="command-option-icon">◇</span><span>防災</span></button>
+                <button type="button" class="command-option" data-command-page="ai" role="option"><span class="command-option-icon">✳</span><span>AI アシスタント</span></button>
+                <button type="button" class="command-option" data-command-page="settings" role="option"><span class="command-option-icon">⚙</span><span>設定</span></button>
+            </div>
+            <p class="command-content-label" id="command-content-label" hidden>ニュース・防災情報</p>
+            <div id="command-content-results" class="command-content-results" role="listbox" aria-label="ニュースと防災情報の検索結果" hidden></div>
+            <p id="command-search-status" class="command-search-status" role="status" aria-live="polite"></p>
+            <div class="command-footer"><span>矢印キーで選択 <b>↑ ↓</b></span><span>決定 <kbd>Enter</kbd></span></div>
+        </div>
+    </dialog>
+
+
+    <!-- ======================================================
+         JAVASCRIPT
+    ======================================================= -->
+
+    <!-- Shared state and utilities must load before feature files; app.js starts the page last. -->
+    <script src="scripts/config.js" defer></script>
+    <script src="scripts/state.js" defer></script>
+    <script src="scripts/helpers.js" defer></script>
+    <script src="scripts/dom.js" defer></script>
+    <script src="scripts/storage.js" defer></script>
+    <script src="scripts/read-later.js" defer></script>
+    <script src="scripts/dashboard-customizer.js" defer></script>
+    <script src="scripts/accessibility.js" defer></script>
+    <script src="scripts/theme.js" defer></script>
+    <script src="scripts/navigation.js" defer></script>
+    <script src="scripts/news-data.js" defer></script>
+    <script src="scripts/news.js" defer></script>
+    <script src="scripts/topic-following.js" defer></script>
+    <script src="scripts/weather.js" defer></script>
+    <script src="scripts/weather-view.js" defer></script>
+    <script src="scripts/weather-location.js" defer></script>
+    <script src="scripts/music.js" defer></script>
+    <script src="scripts/disaster.js" defer></script>
+    <script src="scripts/disaster-view.js" defer></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="anonymous" defer></script>
+    <script src="scripts/map.js" defer></script>
+    <script src="scripts/intelligence.js" defer></script>
+    <script src="scripts/pwa.js" defer></script>
+    <script src="scripts/ai.js" defer></script>
+    <script src="scripts/settings.js" defer></script>
+    <script src="scripts/quiz.js" defer></script>
+    <script src="scripts/command-palette.js" defer></script>
+    <script src="scripts/app.js" defer></script>
+
+</body>
+</html>
