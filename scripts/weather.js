@@ -274,6 +274,21 @@ function normalizeWeatherData(
 }
 
 
+async function loadWeatherDirectly(target) {
+    const params = new URLSearchParams({
+        latitude: String(target.latitude),
+        longitude: String(target.longitude),
+        current: "temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m",
+        daily: "weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,sunrise,sunset",
+        hourly: "temperature_2m,precipitation_probability,precipitation,weather_code,wind_speed_10m",
+        timezone: "auto"
+    });
+    const response = await fetch(`https://api.open-meteo.com/v1/forecast?${params}`);
+    if (!response.ok) throw new Error(`Open-Meteo HTTP ${response.status}`);
+    return response.json();
+}
+
+
 async function loadWeather() {
 
     if (
@@ -330,10 +345,15 @@ async function loadWeather() {
         );
 
 
-        const data =
-            await requestJSON(
+        let data;
+        try {
+            data = await requestJSON(
                 `${APP_CONFIG.api.weather}?${params.toString()}`
             );
+        } catch (error) {
+            console.warn("[YOUTH NOW] サーバー経由の天気取得に失敗したため、直接取得します。", error);
+            data = await loadWeatherDirectly(target);
+        }
 
 
         latestWeatherData =
